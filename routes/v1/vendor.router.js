@@ -39,5 +39,40 @@ const formValidator = require('./../../middleware/form-validator')
  *     
  */
 router.post('/product', hasPermission('addProduct'), formValidator.validateProduct, ProductController.addProduct)
+
+/**
+ *  @swagger
+ * 
+ *  /v1/vendor/product-image/{_id}:
+ *    patch:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - vendor
+ *      description: upload product image
+ *      parameters: 
+ *        - in: path
+ *          name: _id
+ *          schema: 
+ *             type: string 
+ *          required: true 
+ *      requestBody:
+ *        content: 
+ *          multipart/form-data:  
+ *            schema:
+ *              type: object
+ *              properties:
+ *                image:
+ *                  type: file 
+ *                  required: true
+ *      responses:
+ *        200:
+ *          description: product image uploaded successfuly 
+ *        400: 
+ *          description: invalid file format  
+ * 
+ *     
+ */
+router.patch('/product-image/:_id', hasPermission('uploadProductImage'), ProductController.uploadProductImage)
  
 module.exports = router
