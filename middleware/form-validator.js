@@ -9,7 +9,7 @@ const validateRegistration = async (req, res, next)=>{
   } 
   let validationResult;
   try {
-    if(req.body.role == "customer"){
+    if(req.body.role == "customer" || req.body.role == "vendor"){
       validationResult = await registrationSchema.validateAsync(req.body)
       next()
     }
