@@ -8,9 +8,14 @@ const signUp = async (req, res)=>{
     user = await user.save()
     let token = await user.getAuthToken()
     res.json({user, token})
-  } catch (error) {
-      console.log(error)
-      res.json({
+  } catch (error) { 
+    if(error.keyValue){
+        if(error.keyValue.email){   
+           return res.status(400).json({error: true, msg: "the email is taken"})
+        }
+         
+    }
+      return res.status(400).json({
           error: true,
           message: error.message
       })
@@ -18,15 +23,27 @@ const signUp = async (req, res)=>{
 }
 
 const signIn = async (req, res)=>{
-    const {email} = req.body
-    const {password} = req.body
-    const user = await User.findByCredentials(email, password)
-    if(!user){
-        return res.status(401).json({error: true, message: "incorrect username or password"})
-    }
-    const token = await user.getAuthToken()
-    return res.json({status: true, user, token})
-  
+    try {
+        let user = await User.findByCredentials(req.body.email, req.body.password) 
+         let errors={msg:''}
+         if(user._id ){
+             let status = true
+             const token = await user.getAuthToken() 
+             return  res.json({user, token, status})
+         }
+         else{
+             let status = false 
+              return res.status(400).json({error:true, status,msg: "incorrect password or username"})
+         }
+    
+     } catch (error) { 
+         return res.status(500).json({
+             errors:{
+                 error:true,
+                 msg: error.message
+             }
+           })
+     }    
 }
 module.exports = {
     signUp,

@@ -3,7 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); 
 var mongoosePaginate = require('mongoose-paginate')
-
+require('dotenv/config')
 const userSchema = mongoose.Schema(
     {
         firstName: {
@@ -30,8 +30,7 @@ const userSchema = mongoose.Schema(
 
         email: {
             type: String,
-            required: true,
-            trim: true,
+            required: true, 
             unique: true,
             validate(value){
                 if(!validator.isEmail(value)){
@@ -61,10 +60,6 @@ const userSchema = mongoose.Schema(
             required: true,
             minlength: 6,
         },
-        verified:{
-            type: Boolean,
-            default: true
-        }, 
         role:{
             type: String,
             enum: ['admin', 'customer'],
@@ -115,11 +110,10 @@ userSchema.methods.getAuthToken = async function (){
         if(!isValidPassword){
             return ("incorrect username or password")
         }
- 
     } catch (error) {
-        console.log("error finding by credentials \n", error)
+        return ("incorrect username or password")
     }
-    return User;
+    return User
 }
 
 userSchema.pre('save', async function(next){ 

@@ -40,7 +40,6 @@
     "pdf-to-text": "0.0.7",
     "pdfreader": "^1.2.6",
     "resume-parser": "^1.1.0",
-    "stripe": "^8.124.0",
     "swagger-jsdoc": "^4.3.0",
     "swagger-ui-express": "^4.1.4",
     "validator": "^13.1.17",

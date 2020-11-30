@@ -78,7 +78,7 @@ router.post('/signup', formValidator.validateRegistration, authController.signUp
  *                  type: string
  *              example:
  *                email: abebe@gmail.com
- *                pasword: abebe1             
+ *                pasword: password             
  *      responses:
  *        200:
  *          description:  A JSON object containing user information
