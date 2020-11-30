@@ -11,8 +11,6 @@ const formValidator = require('./../../middleware/form-validator')
  *    post:
  *      tags:
  *        - auth
- *      security:
- *        - bearerAuth: []
  *      description: user registration (user, admin)
  *      consumes:
  *        - application/json
@@ -78,7 +76,7 @@ router.post('/signup', formValidator.validateRegistration, authController.signUp
  *                  type: string
  *              example:
  *                email: abebe@gmail.com
- *                pasword: password             
+ *                password: password             
  *      responses:
  *        200:
  *          description:  A JSON object containing user information

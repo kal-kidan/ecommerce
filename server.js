@@ -10,9 +10,11 @@ const swaggerUI = require('swagger-ui-express')
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const unless = require('express-unless');
-const ejs = require('ejs')
+const errorHandler = require('./middleware/error-handler')
 const app = express(); 
 
+//error handler
+app.use(errorHandler)
 
 //security
 const rateLimiter = require('express-rate-limit')
