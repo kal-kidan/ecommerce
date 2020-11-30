@@ -66,8 +66,34 @@ const uploadProductImage = async (req, res, next)=>{
      }
   });
 }
+const getProduct = async (req, res, next)=>{ 
+   try { 
+    let {_id} = req.params
+    let prod = await product.findById(_id)
+    if(!prod){
+      return res.status(404).json({error: true, msg: `product with id ${_id} is not found`})
+    }
+    return res.json(prod)
+   } catch (error) { 
+       return res.status(400).json({error: true, msg:"please enter valid id"})
+   }
+}
 
+const deleteProduct = async (req, res, next)=>{ 
+   try { 
+    let {_id} = req.params
+    let prod = await product.findOneAndRemove({_id}, {useFindAndModify: false})
+    if(!prod){
+      return res.status(404).json({error: true, msg: `product with id ${_id} is not found`})
+    }
+    return res.json({status: true, msg: `${prod.name} deleted successfuly`})
+   } catch (error) { 
+       return res.status(400).json({error: true, msg:"please enter valid id"})
+   }
+}
 module.exports = {
    addProduct,
+   getProduct,
+   deleteProduct,
    uploadProductImage
 }

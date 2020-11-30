@@ -74,5 +74,57 @@ router.post('/product', hasPermission('addProduct'), formValidator.validateProdu
  *     
  */
 router.patch('/product-image/:_id', hasPermission('uploadProductImage'), ProductController.uploadProductImage)
+
+/**
+ *  @swagger
+ * 
+ *  /v1/vendor/product/{_id}:
+ *    get:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - vendor
+ *      description: get a single product  
+ *      parameters: 
+ *        - in: path
+ *          name: _id
+ *          schema: 
+ *             type: string 
+ *          required: true 
+ *      responses:
+ *        200:
+ *          description: JSON object containing product detail
+ *        404: 
+ *          description: product not found
+ * 
+ *     
+ */
+router.get('/product/:_id',  ProductController.getProduct)
+
+/**
+ *  @swagger
+ * 
+ *  /v1/vendor/product/{_id}:
+ *    delete:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - vendor
+ *      description: delete a product
+ *      parameters: 
+ *        - in: path
+ *          name: _id
+ *          schema: 
+ *             type: string 
+ *          required: true 
+ *      responses:
+ *        200:
+ *          description: product deleted successfuly
+ *        404: 
+ *          description: product not found
+ * 
+ *     
+ */
+router.delete('/product/:_id', hasPermission('deleteProduct'), ProductController.deleteProduct)
  
 module.exports = router
