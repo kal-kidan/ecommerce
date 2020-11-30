@@ -9,13 +9,9 @@ const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUI = require('swagger-ui-express')
 const cors = require('cors');
 const bodyParser = require('body-parser')
-const unless = require('express-unless');
-const errorHandler = require('./middleware/error-handler')
+const unless = require('express-unless'); 
 const app = express(); 
-
-//error handler
-app.use(errorHandler)
-
+ 
 //security
 const rateLimiter = require('express-rate-limit')
 const limiter = rateLimiter(
@@ -30,6 +26,7 @@ app.use(xxsClean())
 app.use(limiter)
 app.use(hpp())
 app.use(mongoSanitize())
+
 
  
 //https://swagger.io/specification/#infoObject
@@ -72,6 +69,8 @@ const swaggerDoc = swaggerJSDoc(
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 
+
+
 //routes
 const v1Router = require('./routes/v1.router')
 
@@ -82,6 +81,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/uploads', express.static(__dirname + "/uploads"))
+
 
  app.use(auth.unless({ path:['/v1/auth/signup', '/v1/auth/signin', '/v1/common/migrate'] }))
 

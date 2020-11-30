@@ -1,5 +1,5 @@
 const {customerPermissions} = require('../lib/permission') 
-const {adminPermisions} = require('../lib/permission')
+const {vendorPermisions} = require('../lib/permission')
 exports.hasPermission = (permission) =>(req, res,next)=> {
    try {
     if (req.user.role === "customer") {
@@ -8,15 +8,15 @@ exports.hasPermission = (permission) =>(req, res,next)=> {
         }
         next();
     }
-    else if(req.user.role === "admin"){
-        if(!adminPermisions.includes(permission)){
+    else if(req.user.role === "vendor"){
+        if(!vendorPermisions.includes(permission)){
             throw new Error('You dont have the right privilege ')
         }
         next();
     }
  
    } catch (error) {
-        res.status(401).json({
+       return res.status(401).json({
             error: true,
             message: error.message
         })

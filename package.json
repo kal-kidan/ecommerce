@@ -23,6 +23,7 @@
     "express-unless": "^0.5.0",
     "express-validator": "^6.6.1",
     "expressjs": "^1.0.1",
+    "formidable": "^1.2.2",
     "helmet": "^4.1.1",
     "hpp": "^0.2.3",
     "jest": "^26.6.3",

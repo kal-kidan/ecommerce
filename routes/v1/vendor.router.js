@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router()
 const {hasPermission} = require('./../../middleware/permission-guard')
 const ProductController = require('./../../controllers/ProductController')
-
- 
+const formValidator = require('./../../middleware/form-validator')
 /**
  *  @swagger
  * 
@@ -29,19 +28,16 @@ const ProductController = require('./../../controllers/ProductController')
  *                description:
  *                  type: string
  *                  required: true 
- *          multipart/form-data:
- *            schema:
- *              type: object
- *              properties: 
- *                image:
- *                  type: string
- *                  format: binary
- *                  required: true 
+ *              example:
+ *                  name: "keyboard"
+ *                  price: 56
+ *                  description: "keyboard description"
+ *                  category: "electronics"
  *      responses:
  *        200:
  *          description: Json object containing user information
  *     
  */
-router.post('/product', hasPermission('addProduct'), ProductController.addProduct)
+router.post('/product', hasPermission('addProduct'), formValidator.validateProduct, ProductController.addProduct)
  
 module.exports = router
