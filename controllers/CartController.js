@@ -43,7 +43,7 @@ const addToCart = async (req, res, next)=>{
     if(!quantity>0){
         return res.status(400).json({error: true, msg: 'please enter valid quantity'})
     }
-    let carT = await cart.findOneAndUpdate({_id, customer: req.user._id}, quantity, {useFindAndModify: false})
+    let carT = await cart.findOneAndUpdate({_id, customer: req.user._id}, {quantity}, {useFindAndModify: false})
     if(!carT){
       return res.status(404).json({error: true, msg: `cart with id of ${_id} is not found`})
     }

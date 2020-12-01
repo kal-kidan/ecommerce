@@ -4,6 +4,7 @@ const {hasPermission} = require('./../../middleware/permission-guard')
 const productController = require('./../../controllers/ProductController')
 const cartController = require('./../../controllers/CartController');
 const formValidator = require("../../middleware/form-validator");
+const CartController = require("./../../controllers/CartController");
 /**
  *  @swagger
  * 
@@ -92,4 +93,69 @@ router.post('/cart', hasPermission('addToCart'), formValidator.validateCart, car
  *     
  */
 router.get('/carts', hasPermission('getCarts'), cartController.getCarts)
+
+/**
+ *  @swagger
+ * 
+ *  /v1/customer/cart/{_id}:
+ *    delete:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - customer
+ *      description: delete a single cart
+ *      parameters: 
+ *        - in: path
+ *          name: _id
+ *          schema: 
+ *             type: string 
+ *          required: true 
+ *      responses:
+ *        200:
+ *          description: cart deleted successfuly
+ *        404: 
+ *          description: cart not found
+ * 
+ *     
+ */
+router.delete('/cart/:_id', hasPermission('deleteCart'), cartController.deleteCart)
+
+/**
+ *  @swagger
+ * 
+ *  /v1/customer/cart/{_id}:
+ *    patch:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - customer
+ *      description: update any of product fields
+ *      parameters: 
+ *        - in: path
+ *          name: _id
+ *          schema: 
+ *             type: string 
+ *          required: true 
+ *      requestBody:
+ *        content: 
+ *          application/json:  
+ *            schema:
+ *              type: object
+ *              properties: 
+ *                quantity:
+ *                  type: number
+ *                  required: true 
+ *              example:
+ *                  quantity: 3
+ *      responses:
+ *        200:
+ *          description: you have updated successfuly
+ *        400: 
+ *          description: invalid quantity provided 
+ *        404:
+ *          description: cart not found
+ * 
+ *     
+ */
+router.patch('/cart/:_id', hasPermission('updateCart'), CartController.updateCart)
 module.exports = router
