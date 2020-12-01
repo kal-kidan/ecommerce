@@ -57,8 +57,11 @@ const uploadProductImage = async (req, res, next)=>{
               })
             }
 
-           await product.findOneAndUpdate({_id: productId}, {image: `/uploads/images/${req.fileName}`}, {useFindAndModify: false})
-           return res.json({status: true, msg: "product image uploaded successfuly"}) 
+          let updatedProduct =  await product.findOneAndUpdate({_id: productId,  vendor: req.user._id}, {image: `/uploads/images/${req.fileName}`}, {useFindAndModify: false})
+           if(!updateProduct){
+             return res.json({error: true, msg: 'product is not found'})
+           }
+          return res.json({status: true, msg: "product image uploaded successfuly"}) 
         } catch (error) {
             return res.status(500).json({error: true, msg: error.message})
             
@@ -82,7 +85,7 @@ const getProduct = async (req, res, next)=>{
 const deleteProduct = async (req, res, next)=>{ 
    try { 
     let {_id} = req.params
-    let prod = await product.findOneAndRemove({_id}, {useFindAndModify: false})
+    let prod = await product.findOneAndRemove({_id,  vendor: req.user._id}, {useFindAndModify: false})
     if(!prod){
       return res.status(404).json({error: true, msg: `product with id ${_id} is not found`})
     }
@@ -90,6 +93,19 @@ const deleteProduct = async (req, res, next)=>{
    } catch (error) { 
        return res.status(400).json({error: true, msg:"please enter valid id"})
    }
+}
+
+const updateProduct = async (req, res, next)=>{ 
+  try { 
+   let {_id} = req.params
+   let prod = await product.findOneAndUpdate({_id, vendor: req.user._id}, req.body, {useFindAndModify: false})
+   if(!prod){
+     return res.status(404).json({error: true, msg: `product with id ${_id} is not found`})
+   }
+   return res.json({status: true, msg: `you have updated successfuly`})
+  } catch (error) { 
+      return res.status(400).json({error: true, msg:"please enter valid id"})
+  }
 }
 module.exports = {
    addProduct,

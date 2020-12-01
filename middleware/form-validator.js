@@ -1,6 +1,7 @@
 const validationSchema = require('./../lib/validation-schemas')
 const {registrationSchema} = validationSchema
 const {productSchema} = validationSchema 
+const {productUpdateSchema} = validationSchema 
 
 const Joi = require('joi')
 
@@ -26,7 +27,22 @@ const validateRegistration = async (req, res, next)=>{
        
 }
 
-const validateProduct =async (req, res, next)=>{
+const validateProduct = async (req, res, next)=>{
+  if(Object.entries(req.body).length=== 0){ 
+    return res.json({error:true, msg: "please enter a value"})
+  } 
+  try {
+     await productUpdateSchema.validateAsync(req.body)
+     next() 
+    }
+    catch (err) {  
+      let msg = err.message.replace(/"/g, '')
+      return res.json({error: true,  msg})
+    }
+       
+}
+
+const validateUpdateProduct = async (req, res, next)=>{
   if(Object.entries(req.body).length=== 0){ 
     return res.json({error:true, msg: "please enter a value"})
   } 
@@ -39,10 +55,10 @@ const validateProduct =async (req, res, next)=>{
       return res.json({error: true,  msg})
     }
        
-}
- 
+} 
 
 module.exports = {
   validateRegistration,
+  validateUpdateProduct,
   validateProduct
 }

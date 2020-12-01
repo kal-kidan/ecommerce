@@ -126,5 +126,52 @@ router.get('/product/:_id',  ProductController.getProduct)
  *     
  */
 router.delete('/product/:_id', hasPermission('deleteProduct'), ProductController.deleteProduct)
- 
+
+/**
+ *  @swagger
+ * 
+ *  /v1/vendor/product/{_id}:
+ *    patch:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - vendor
+ *      description: update any of product fields
+ *      parameters: 
+ *        - in: path
+ *          name: _id
+ *          schema: 
+ *             type: string 
+ *          required: true 
+ *      requestBody:
+ *        content: 
+ *          application/json:  
+ *            schema:
+ *              type: object
+ *              properties: 
+ *                name:
+ *                  type: string
+ *                  required: true 
+ *                price:
+ *                  type: number
+ *                  required: true
+ *                description:
+ *                  type: string
+ *                  required: true 
+ *              example:
+ *                  name: "keyboard"
+ *                  price: 56
+ *                  description: "keyboard description"
+ *                  category: "electronics"
+ *      responses:
+ *        200:
+ *          description: you have updated successfuly
+ *        400: 
+ *          description: invalid data provided 
+ *        404:
+ *          description: product not found
+ * 
+ *     
+ */
+router.patch('/product/:_id', hasPermission('updateProduct'), formValidator.validateUpdateProduct, ProductController.updateProduct)
 module.exports = router
