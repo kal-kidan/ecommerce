@@ -107,9 +107,27 @@ const updateProduct = async (req, res, next)=>{
       return res.status(400).json({error: true, msg:"please enter valid id"})
   }
 }
+
+const getProducts = async (req, res)=>{ 
+  const limit = parseInt(req.query.limit)  
+  const page = parseInt(req.query.page)
+  const sort = req.query.page
+  let sortOption = `{${sort}: 1}`
+  if( !(limit > 0 && page > 0) ) {  
+     return res.status(400).json({error: true, msg: "please valid input greater that zero" })
+  }
+  try { 
+      let result = await product.paginate({}, { page, limit, sort: {price: 1}})
+      return res.json(result)
+  } catch (errors) {
+     return res.status(500).json({errors})
+  }
+}
 module.exports = {
    addProduct,
    getProduct,
+   updateProduct,
    deleteProduct,
+   getProducts,
    uploadProductImage
 }

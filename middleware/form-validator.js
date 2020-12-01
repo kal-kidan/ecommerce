@@ -47,7 +47,7 @@ const validateUpdateProduct = async (req, res, next)=>{
     return res.json({error:true, msg: "please enter a value"})
   } 
   try {
-     await productSchema.validateAsync(req.body)
+     await productUpdateSchema.validateAsync(req.body)
      next() 
     }
     catch (err) {  

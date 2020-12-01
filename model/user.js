@@ -2,7 +2,7 @@ const mongoose = require('./../lib/db-connect');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); 
-var mongoosePaginate = require('mongoose-paginate')
+
 require('dotenv/config')
 const userSchema = mongoose.Schema(
     {
@@ -70,7 +70,7 @@ const userSchema = mongoose.Schema(
     {timestamps: true}
 )
 
-userSchema.plugin(mongoosePaginate);
+
  
 userSchema.methods.getAuthToken = async function (){
     let User= this 

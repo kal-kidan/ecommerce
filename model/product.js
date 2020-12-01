@@ -1,4 +1,5 @@
 const mongoose = require('./../lib/db-connect')
+const mongoosePaginate = require('mongoose-paginate')
 const productSchema =  mongoose.Schema({
     vendor: {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +30,6 @@ const productSchema =  mongoose.Schema({
 },
 {timestamps: true}
 )
-
+productSchema.plugin(mongoosePaginate);
 const product = mongoose.model('product', productSchema)
 module.exports = {product}

@@ -41,7 +41,7 @@ const formValidator = require('./../../middleware/form-validator')
  *                  gender: "male"
  *                  password: "password"
  *                  phoneNumber: "+251942793296"
- *                  role: "customer"  
+ *                  role: "vendor"  
  *      responses:
  *        200:
  *          description:  A JSON object containing user information
