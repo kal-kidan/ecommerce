@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router()
 const {hasPermission} = require('./../../middleware/permission-guard')
 const productController = require('./../../controllers/ProductController')
-
+const cartController = require('./../../controllers/CartController')
 /**
  *  @swagger
  * 
@@ -33,5 +33,7 @@ const productController = require('./../../controllers/ProductController')
  *     
  */
 router.get('/products', productController.getProducts)
+ 
+router.post('/cart', cartController.addToCart)
  
 module.exports = router
