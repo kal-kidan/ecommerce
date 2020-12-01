@@ -117,7 +117,7 @@ const getProducts = async (req, res)=>{
      return res.status(400).json({error: true, msg: "please valid input greater that zero" })
   }
   try { 
-      let result = await product.paginate({}, { page, limit, sort: {price: 1}})
+      let result = await product.paginate({}, { page, limit, populate: {path:'vendor', select: 'firstName lastName phoneNumber'},sort: {price: 1}})
       return res.json(result)
   } catch (errors) {
      return res.status(500).json({errors})
