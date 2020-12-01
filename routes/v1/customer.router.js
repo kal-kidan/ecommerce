@@ -33,7 +33,42 @@ const cartController = require('./../../controllers/CartController')
  *     
  */
 router.get('/products', productController.getProducts)
- 
+
+ /**
+ *  @swagger
+ * 
+ *  /v1/customer/cart:
+ *    post:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - customer
+ *      description: add one or more to cart
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties: 
+ *                product:
+ *                  type: string
+ *                  required: true 
+ *                vendor:
+ *                  type: string
+ *                  required: true
+ *                quantity:
+ *                  type: number
+ *                  required: true 
+ *              example:
+ *                  product: "product id here"
+ *                  vendor: "vendor id here"
+ *                  quantity: 2 
+ *      responses:
+ *        200:
+ *          description: cart added successfuly
+ *        400:
+ *          description: enter valid data
+ */
 router.post('/cart', cartController.addToCart)
  
 module.exports = router
