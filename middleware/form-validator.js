@@ -60,11 +60,11 @@ const validateUpdateProduct = async (req, res, next)=>{
 
 
 const validateCart = async (req, res, next)=>{
-  if(Object.entries(req.body).length=== 0){ 
+  if(req.body.carts.length === 0){ 
     return res.json({error:true, msg: "please enter a value"})
   } 
   try {
-     await cartSchema.validateAsync(req.body)
+     await cartSchema.validateAsync(req.body.carts)
      next() 
     }
     catch (err) {  

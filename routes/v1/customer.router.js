@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router()
 const {hasPermission} = require('./../../middleware/permission-guard')
 const productController = require('./../../controllers/ProductController')
-const cartController = require('./../../controllers/CartController')
+const cartController = require('./../../controllers/CartController');
+const formValidator = require("../../middleware/form-validator");
 /**
  *  @swagger
  * 
@@ -50,25 +51,28 @@ router.get('/products', productController.getProducts)
  *            schema:
  *              type: object
  *              properties: 
- *                product:
- *                  type: string
- *                  required: true 
- *                vendor:
- *                  type: string
+ *                carts:
+ *                  type: array
  *                  required: true
- *                quantity:
- *                  type: number
- *                  required: true 
- *              example:
- *                  product: "product id here"
- *                  vendor: "vendor id here"
- *                  quantity: 2 
+ *                  items:
+ *                    type: object
+ *                    required: true
+ *                    properties:
+ *                      product:
+ *                        type: string
+ *                        required: true 
+ *                      vendor:
+ *                        type: string
+ *                        required: true 
+ *                      quantity:
+ *                        type: number
+ *                        required: true 
  *      responses:
  *        200:
  *          description: cart added successfuly
  *        400:
  *          description: enter valid data
  */
-router.post('/cart', cartController.addToCart)
+router.post('/cart', hasPermission('addToCart'), formValidator.validateCart, cartController.addToCart)
  
 module.exports = router
