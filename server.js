@@ -68,7 +68,7 @@ const swaggerDoc = swaggerJSDoc(
 )
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
-
+app.use("/", (req, res)=>res.redirect('/api-docs'))
 
 
 //routes
