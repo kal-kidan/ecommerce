@@ -13,7 +13,18 @@ const addToCart = async (req, res, next)=>{
     }
  }
 
+ const getCarts = async (req, res)=>{ 
+    try { 
+     let {_id} = req.user
+     let carts = await cart.find({customer: _id}).populate({path: 'product', select: 'name price category'})
+     return res.json(carts)
+    } catch (error) { 
+        return res.status(500).json({error: true, msg: error.messsage})
+    }
+ }
+
  module.exports = {
-    addToCart
+    addToCart,
+    getCarts
  }
  

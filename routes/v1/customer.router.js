@@ -74,5 +74,22 @@ router.get('/products', productController.getProducts)
  *          description: enter valid data
  */
 router.post('/cart', hasPermission('addToCart'), formValidator.validateCart, cartController.addToCart)
- 
+
+
+/**
+ *  @swagger
+ * 
+ *  /v1/customer/carts:
+ *    get:
+ *      security:
+ *        - bearerAuth: []
+ *      tags:
+ *        - customer
+ *      description: fetch carts
+ *      responses:
+ *        200:
+ *          description: an array of items in the cart
+ *     
+ */
+router.get('/carts', hasPermission('getCarts'), cartController.getCarts)
 module.exports = router
